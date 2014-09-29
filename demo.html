@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery-vendor.js"></script>
+		<script type="text/javascript" src="jquery.imageviewerclient.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				var canvas = $("canvas")
+					.imageViewerClient("http://imageviewer.kb.nl/ImagingService/imagingService", {
+						params: { id: "ddd:010633702:mpeg21:p001:image" },
+						previewScale: 0.4,
+						minimap: $(".minimap"), minimapOptions: {
+							interactive: true,
+							color: "blue",
+							canvas: canvas,
+							onmove: function(movement) {
+								canvas.trigger('moveBy', [movement, false, true]);
+							},
+							onup: function(movement) {
+								canvas.trigger('moveBy', [movement, true, true]);
+							},
+							ondown: function(pos) {
+								canvas.trigger('moveTo', [pos, false, true]);
+							},
+							onout: function() {
+								canvas.trigger('redraw');
+							}
+						}
+					}).imageViewerHandlers({
+						mousewheel: true
+					});
+				canvas.imageviewerTouchHandlers();
+			});
+		</script>
+	</head>
+
+	<body>
+		<div style="float: left; width: 100px; height: 400px;" class="minimap" ></div>
+		<canvas width="960" height="600" style="cursor:move">
+		</canvas>
+	</body>
+</html>
